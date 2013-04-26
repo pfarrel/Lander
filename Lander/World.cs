@@ -21,8 +21,8 @@ namespace Lander
 
         public void Update(KeyboardState keyState)
         {
-            //if (ship.Rectangle.Intersects(ground.Rectangle))
-            //    ship.Stop();
+            if (ship.Rectangle.Intersects(ground.Rectangle))
+                ship.Land(ground.Rectangle);
 
             ship.Update(keyState);
             ground.Update();
@@ -30,8 +30,8 @@ namespace Lander
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            ship.Draw(spriteBatch);
             ground.Draw(spriteBatch);
+            ship.Draw(spriteBatch);
         }
     }
 }

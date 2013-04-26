@@ -31,9 +31,10 @@ namespace Lander
             Rotation = 0.0f;
         }
 
-        public void Land()
+        public void Land(Rectangle on)
         {
             Velocity = Vector2.Zero;
+            Position = new Vector2(Position.X, on.Top - Height);
         }
 
         public void Update(KeyboardState keyboard)
@@ -48,8 +49,12 @@ namespace Lander
             if (keyboard.IsKeyDown(Keys.Right))
                 Rotation += 0.05f;
             if (keyboard.IsKeyDown(Keys.Space))
-                Velocity += YMove;
+            {
+                var vector = Vector2.Transform(Vector2.UnitY, Matrix.CreateRotationZ(Rotation));
+                Velocity += vector * -0.2f;
+            }
 
+            // clamp
             Velocity = new Vector2(Velocity.X, MathHelper.Clamp(Velocity.Y, -5.0f, 5.0f));
 
             Console.WriteLine("Position: " + Position.ToString());
