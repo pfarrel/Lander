@@ -12,11 +12,13 @@ namespace Lander
     {
         Ship ship;
         Ground ground;
+        Target target;
 
         public World()
         {
             ship = new Ship(new Vector2(400, 200));
             ground = new Ground();
+            target = new Target(new Vector2(1000, 600));
         }
 
         public void Update(KeyboardState keyState)
@@ -31,6 +33,7 @@ namespace Lander
         public void Draw(SpriteBatch spriteBatch)
         {
             ground.Draw(spriteBatch);
+            target.Draw(spriteBatch);
             ship.Draw(spriteBatch);
         }
     }

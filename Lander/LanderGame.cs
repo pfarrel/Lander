@@ -55,6 +55,9 @@ namespace Lander
 
             Ground.Texture = new Texture2D(GraphicsDevice, Ground.Width, Ground.Height);
             Ground.Texture.SetData(Enumerable.Repeat(Color.White, Ground.Width * Ground.Height).ToArray());
+
+            Target.Texture = new Texture2D(GraphicsDevice, Target.Width, Target.Height);
+            Target.Texture.SetData(Enumerable.Repeat(Color.White, Target.Width * Target.Height).ToArray());
         }
 
         protected override void UnloadContent()
