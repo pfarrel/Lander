@@ -20,7 +20,7 @@ namespace Lander
 
         public Rectangle Rectangle { get; private set; }
 
-        public const int Width = 60;
+        public const int Width = 40;
         public const int Height = 120;
         private readonly Vector2 RotationOrigin = new Vector2(Width / 2, Height / 2);
 
@@ -42,25 +42,22 @@ namespace Lander
             Position = new Vector2(Position.X, on.Top - Height);
         }
 
-        public void Update(KeyboardState keyboard)
+        public void Update(GameTime gameTime, KeyboardState keyboard)
         {
-
-
             if (keyboard.IsKeyDown(Keys.Left))
                 RotationThrust -= 0.001f;
             if (keyboard.IsKeyDown(Keys.Right))
                 RotationThrust += 0.001f;
             if (keyboard.IsKeyDown(Keys.Space))
-                MainThrust += 0.025f;
+                MainThrust += 0.015f;
 
             var thrustVector = Vector2.Transform(Vector2.UnitY, Matrix.CreateRotationZ(Rotation));
             Velocity += thrustVector * (-1.0f * MainThrust);
             Velocity += LanderGame.Gravity;
 
-            // clamp
-            //Velocity = new Vector2(Velocity.X, MathHelper.Clamp(Velocity.Y, -5.0f, 5.0f));
-
             Rotation += RotationThrust;
+
+            Rotation += Rotation * 0.01f;
 
             Position += Velocity;
             Rectangle = new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
@@ -71,11 +68,12 @@ namespace Lander
 
             Console.WriteLine("Position: " + Position.ToString());
             Console.WriteLine("Thrust: " + MainThrust);
+            Console.WriteLine("Rotation: " + Rotation);
         }
 
-        public void Draw(SpriteBatch batch)
+        public void Draw(GameTime gameTime, SpriteBatch batch)
         {
-            batch.Draw(Texture, Rectangle, Color.Black);
+            //batch.Draw(Texture, Rectangle, Color.Black);
 
             var center = new Rectangle(Rectangle.X + Width / 2, Rectangle.Y + Height / 2, Width, Height);
             batch.Draw(Texture, center, null, Color.Red, Rotation, RotationOrigin, SpriteEffects.None, 0f);

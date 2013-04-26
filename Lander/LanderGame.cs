@@ -75,7 +75,7 @@ namespace Lander
             if (keyState.IsKeyDown(Keys.G) && LastKeyboardState.IsKeyUp(Keys.G))
                 Gravity = (Gravity != Vector2.Zero) ? Vector2.Zero : NormalGravity;
 
-            world.Update(keyState);
+            world.Update(gameTime, keyState);
 
             LastKeyboardState = keyState;
 
@@ -87,7 +87,7 @@ namespace Lander
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            world.Draw(spriteBatch);
+            world.Draw(gameTime, spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);

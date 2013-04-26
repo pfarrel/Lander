@@ -21,7 +21,7 @@ namespace Lander
             Rectangle = new Rectangle((int)position.X, (int)position.Y, Width, Height);
         }
 
-        public void Draw(SpriteBatch batch)
+        public void Draw(GameTime gameTime, SpriteBatch batch)
         {
             batch.Draw(Texture, Rectangle, Color.LawnGreen);
         }
