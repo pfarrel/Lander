@@ -11,24 +11,29 @@ namespace Lander
     public class Ship
     {
         public Vector2 Position { get; private set; }
-        public Vector2 Velocity { get; private set; }
         public float Rotation { get; private set; }
+
+        public Vector2 Velocity { get; private set; }
+
+        private float MainThrust;
+        private float RotationThrust;
+
         public Rectangle Rectangle { get; private set; }
 
-        public const int Width = 40;
-        public const int Height = 80;
+        public const int Width = 60;
+        public const int Height = 120;
         private readonly Vector2 RotationOrigin = new Vector2(Width / 2, Height / 2);
-
-        private readonly Vector2 YMove = new Vector2(0, -0.2f);
-        private readonly Vector2 Gravity = new Vector2(0, 0.1f);
 
         public static Texture2D Texture;
 
         public Ship(Vector2 position)
         {
             Position = position;
-            Velocity = Vector2.Zero;
             Rotation = 0.0f;
+
+            Velocity = Vector2.Zero;
+            MainThrust = 0.0f;
+            RotationThrust = 0.0f;
         }
 
         public void Land(Rectangle on)
@@ -39,25 +44,33 @@ namespace Lander
 
         public void Update(KeyboardState keyboard)
         {
+
+
+            if (keyboard.IsKeyDown(Keys.Left))
+                RotationThrust -= 0.001f;
+            if (keyboard.IsKeyDown(Keys.Right))
+                RotationThrust += 0.001f;
+            if (keyboard.IsKeyDown(Keys.Space))
+                MainThrust += 0.025f;
+
+            var thrustVector = Vector2.Transform(Vector2.UnitY, Matrix.CreateRotationZ(Rotation));
+            Velocity += thrustVector * (-1.0f * MainThrust);
+            Velocity += LanderGame.Gravity;
+
+            // clamp
+            //Velocity = new Vector2(Velocity.X, MathHelper.Clamp(Velocity.Y, -5.0f, 5.0f));
+
+            Rotation += RotationThrust;
+
             Position += Velocity;
             Rectangle = new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
 
-            Velocity += Gravity;
-
-            if (keyboard.IsKeyDown(Keys.Left))
-                Rotation -= 0.05f ;
-            if (keyboard.IsKeyDown(Keys.Right))
-                Rotation += 0.05f;
-            if (keyboard.IsKeyDown(Keys.Space))
-            {
-                var vector = Vector2.Transform(Vector2.UnitY, Matrix.CreateRotationZ(Rotation));
-                Velocity += vector * -0.2f;
-            }
-
-            // clamp
-            Velocity = new Vector2(Velocity.X, MathHelper.Clamp(Velocity.Y, -5.0f, 5.0f));
+            // decay
+            RotationThrust *= 0.995f;
+            MainThrust *= 0.9f;
 
             Console.WriteLine("Position: " + Position.ToString());
+            Console.WriteLine("Thrust: " + MainThrust);
         }
 
         public void Draw(SpriteBatch batch)

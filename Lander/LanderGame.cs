@@ -22,6 +22,11 @@ namespace Lander
 
         World world;
 
+        private static Vector2 NormalGravity = new Vector2(0, 0.1f);
+        public static Vector2 Gravity = NormalGravity;
+
+        private KeyboardState LastKeyboardState;
+
         public LanderGame()
             : base()
         {
@@ -64,7 +69,12 @@ namespace Lander
             if (keyState.IsKeyDown(Keys.Escape))
                 Exit();
 
+            if (keyState.IsKeyDown(Keys.G) && LastKeyboardState.IsKeyUp(Keys.G))
+                Gravity = (Gravity != Vector2.Zero) ? Vector2.Zero : NormalGravity;
+
             world.Update(keyState);
+
+            LastKeyboardState = keyState;
 
             base.Update(gameTime);
         }
