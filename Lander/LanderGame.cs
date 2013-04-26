@@ -16,7 +16,12 @@ namespace Lander
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Ship ship;
+        public static Texture2D WhitePixelTexture;
+
+        public const int Width = 1280;
+        public const int Height = 720;
+
+        World world;
 
         public LanderGame()
             : base()
@@ -25,14 +30,16 @@ namespace Lander
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
 
+            this.IsFixedTimeStep = true;
+
             Content.RootDirectory = "Content";
         }
 
         protected override void Initialize()
         {
-            base.Initialize();
+            world = new World();
 
-            ship = new Ship(new Vector2(400, 400));
+            base.Initialize();
         }
 
         protected override void LoadContent()
@@ -42,7 +49,7 @@ namespace Lander
             var texture = new Texture2D(GraphicsDevice, 1, 1);
             texture.SetData(new[] { Color.White });
 
-            Ship.Texture = texture;
+            WhitePixelTexture = texture;
         }
 
         protected override void UnloadContent()
@@ -52,10 +59,12 @@ namespace Lander
 
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            var keyState = Keyboard.GetState();
+
+            if (keyState.IsKeyDown(Keys.Escape))
                 Exit();
 
-            ship.Update(gameTime, Keyboard.GetState());
+            world.Update(keyState);
 
             base.Update(gameTime);
         }
@@ -65,7 +74,7 @@ namespace Lander
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            ship.Draw(spriteBatch);
+            world.Draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);
