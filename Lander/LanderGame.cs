@@ -16,25 +16,33 @@ namespace Lander
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Ship ship;
+
         public LanderGame()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+
             Content.RootDirectory = "Content";
         }
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
+
+            ship = new Ship(new Vector2(400, 400));
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            var texture = new Texture2D(GraphicsDevice, 1, 1);
+            texture.SetData(new[] { Color.White });
+
+            Ship.Texture = texture;
         }
 
         protected override void UnloadContent()
@@ -44,10 +52,10 @@ namespace Lander
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            ship.Update(gameTime, Keyboard.GetState());
 
             base.Update(gameTime);
         }
@@ -55,9 +63,11 @@ namespace Lander
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
 
-            // TODO: Add your drawing code here
+            ship.Draw(spriteBatch);
 
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
