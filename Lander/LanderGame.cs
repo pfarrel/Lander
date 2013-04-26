@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,8 +16,6 @@ namespace Lander
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
-        public static Texture2D WhitePixelTexture;
 
         public const int Width = 1280;
         public const int Height = 720;
@@ -46,10 +45,11 @@ namespace Lander
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            var texture = new Texture2D(GraphicsDevice, 1, 1);
-            texture.SetData(new[] { Color.White });
+            Ship.Texture = new Texture2D(GraphicsDevice, Ship.Width, Ship.Height);
+            Ship.Texture.SetData(Enumerable.Repeat(Color.White, Ship.Width * Ship.Height).ToArray());
 
-            WhitePixelTexture = texture;
+            Ground.Texture = new Texture2D(GraphicsDevice, Ground.Width, Ground.Height);
+            Ground.Texture.SetData(Enumerable.Repeat(Color.White, Ground.Width * Ground.Height).ToArray());
         }
 
         protected override void UnloadContent()

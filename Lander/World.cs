@@ -21,8 +21,8 @@ namespace Lander
 
         public void Update(KeyboardState keyState)
         {
-            if (ship.Rectangle.Intersects(ground.Rectangle))
-                ship.Stop();
+            //if (ship.Rectangle.Intersects(ground.Rectangle))
+            //    ship.Stop();
 
             ship.Update(keyState);
             ground.Update();
