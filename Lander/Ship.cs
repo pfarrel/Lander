@@ -32,7 +32,7 @@ namespace Lander
             Rotation = 0.0f;
 
             Velocity = Vector2.Zero;
-            MainThrust = 0.0f;
+            MainThrust = 0.5f;
             RotationThrust = 0.0f;
         }
 
@@ -66,9 +66,10 @@ namespace Lander
             RotationThrust *= 0.995f;
             MainThrust *= 0.9f;
 
-            Console.WriteLine("Position: " + Position.ToString());
-            Console.WriteLine("Thrust: " + MainThrust);
-            Console.WriteLine("Rotation: " + Rotation);
+            //Console.WriteLine("Position: " + Position.ToString());
+            //Console.WriteLine("Velocity: " + Velocity.ToString());
+            //Console.WriteLine("Thrust: " + MainThrust);
+            //Console.WriteLine("Rotation: " + Rotation);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch batch)

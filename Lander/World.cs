@@ -14,20 +14,37 @@ namespace Lander
         Ground ground;
         Target target;
 
+        public GameState State { get; private set;}
+
         public World()
         {
             ship = new Ship(new Vector2(400, 200));
             ground = new Ground();
             target = new Target(new Vector2(1000, 600));
+
+            State = GameState.Playing;
         }
 
         public void Update(GameTime gameTime, KeyboardState keyState)
         {
-            if (ship.Rectangle.Intersects(ground.Rectangle))
-                ship.Land(ground.Rectangle);
+            if (State == GameState.Playing)
+            {
+                if (ship.Rectangle.Intersects(target.Rectangle) && ship.Velocity.Length() < 1 && Math.Abs(ship.Rotation) < 0.2f)
+                {
+                    State = GameState.Won;
+                }
 
-            ship.Update(gameTime, keyState);
-            ground.Update(gameTime);
+                if (ship.Rectangle.Intersects(ground.Rectangle))
+                {
+                    if (!(ship.Velocity.Length() < 1 && Math.Abs(ship.Rotation) < 0.2f))
+                    {
+                        State = GameState.Lost;
+                    }
+                    ship.Land(ground.Rectangle);
+                }
+
+                ship.Update(gameTime, keyState);
+            }
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -36,5 +53,12 @@ namespace Lander
             target.Draw(gameTime, spriteBatch);
             ship.Draw(gameTime, spriteBatch);
         }
+    }
+
+    public enum GameState
+    {
+        Playing,
+        Won,
+        Lost
     }
 }
