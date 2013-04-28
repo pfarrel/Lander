@@ -78,6 +78,10 @@ namespace Lander
 
             var center = new Rectangle(Rectangle.X + Width / 2, Rectangle.Y + Height / 2, Width, Height);
             batch.Draw(Texture, center, null, Color.Red, Rotation, RotationOrigin, SpriteEffects.None, 0f);
+
+
+            var text = string.Format("Rotation: {0:f2}, RotationThrust {1:f2}", Rotation, RotationThrust);
+            batch.DrawString(LanderGame.Font, text, new Vector2(100, 100), Color.White);
         }
     }
 }

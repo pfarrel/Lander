@@ -27,6 +27,8 @@ namespace Lander
 
         private KeyboardState LastKeyboardState;
 
+        public static SpriteFont Font;
+
         public LanderGame()
             : base()
         {
@@ -58,6 +60,8 @@ namespace Lander
 
             Target.Texture = new Texture2D(GraphicsDevice, Target.Width, Target.Height);
             Target.Texture.SetData(Enumerable.Repeat(Color.White, Target.Width * Target.Height).ToArray());
+
+            Font = Content.Load<SpriteFont>("SpriteFont1");
         }
 
         protected override void UnloadContent()
@@ -75,6 +79,9 @@ namespace Lander
             if (keyState.IsKeyDown(Keys.G) && LastKeyboardState.IsKeyUp(Keys.G))
                 Gravity = (Gravity != Vector2.Zero) ? Vector2.Zero : NormalGravity;
 
+            if (keyState.IsKeyDown(Keys.R) && LastKeyboardState.IsKeyUp(Keys.R))
+                world = new World();
+
             world.Update(gameTime, keyState);
 
             LastKeyboardState = keyState;
@@ -88,6 +95,8 @@ namespace Lander
             spriteBatch.Begin();
 
             world.Draw(gameTime, spriteBatch);
+
+            //spriteBatch.DrawString(Font, "Test", new Vector2(100, 100), Color.White);
 
             spriteBatch.End();
             base.Draw(gameTime);
