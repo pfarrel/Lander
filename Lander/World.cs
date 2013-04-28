@@ -25,7 +25,7 @@ namespace Lander
             State = GameState.Playing;
         }
 
-        public void Update(GameTime gameTime, KeyboardState keyState)
+        public void Update(GameTime gameTime)
         {
             if (State == GameState.Playing)
             {
@@ -43,7 +43,7 @@ namespace Lander
                     ship.Land(ground.Rectangle);
                 }
 
-                ship.Update(gameTime, keyState);
+                ship.Update(gameTime);
             }
         }
 

@@ -42,13 +42,13 @@ namespace Lander
             Position = new Vector2(Position.X, on.Top - Height);
         }
 
-        public void Update(GameTime gameTime, KeyboardState keyboard)
+        public void Update(GameTime gameTime)
         {
-            if (keyboard.IsKeyDown(Keys.Left))
+            if (KeyboardHandler.CurrentState.IsKeyDown(Keys.Left))
                 RotationThrust -= 0.001f;
-            if (keyboard.IsKeyDown(Keys.Right))
+            if (KeyboardHandler.CurrentState.IsKeyDown(Keys.Right))
                 RotationThrust += 0.001f;
-            if (keyboard.IsKeyDown(Keys.Space))
+            if (KeyboardHandler.CurrentState.IsKeyDown(Keys.Space))
                 MainThrust += 0.015f;
 
             var thrustVector = Vector2.Transform(Vector2.UnitY, Matrix.CreateRotationZ(Rotation));
@@ -56,8 +56,6 @@ namespace Lander
             Velocity += LanderGame.Gravity;
 
             Rotation += RotationThrust;
-
-            Rotation += Rotation * 0.01f;
 
             Position += Velocity;
             Rectangle = new Rectangle((int)Position.X, (int)Position.Y, Width, Height);
@@ -78,7 +76,6 @@ namespace Lander
 
             var center = new Rectangle(Rectangle.X + Width / 2, Rectangle.Y + Height / 2, Width, Height);
             batch.Draw(Texture, center, null, Color.Red, Rotation, RotationOrigin, SpriteEffects.None, 0f);
-
 
             var text = string.Format("Rotation: {0:f2}, RotationThrust {1:f2}", Rotation, RotationThrust);
             batch.DrawString(LanderGame.Font, text, new Vector2(100, 100), Color.White);

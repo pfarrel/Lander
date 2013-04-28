@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="Ground.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="KeyboardHandler.cs" />
     <Compile Include="LanderGame.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

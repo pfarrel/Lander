@@ -25,8 +25,6 @@ namespace Lander
         private static Vector2 NormalGravity = new Vector2(0, 0.1f);
         public static Vector2 Gravity = NormalGravity;
 
-        private KeyboardState LastKeyboardState;
-
         public static SpriteFont Font;
 
         public LanderGame()
@@ -71,20 +69,18 @@ namespace Lander
 
         protected override void Update(GameTime gameTime)
         {
-            var keyState = Keyboard.GetState();
+            KeyboardHandler.Update();
 
-            if (keyState.IsKeyDown(Keys.Escape))
+            if (KeyboardHandler.CurrentState.IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (keyState.IsKeyDown(Keys.G) && LastKeyboardState.IsKeyUp(Keys.G))
+            if (KeyboardHandler.Pressed.Contains(Keys.G))
                 Gravity = (Gravity != Vector2.Zero) ? Vector2.Zero : NormalGravity;
 
-            if (keyState.IsKeyDown(Keys.R) && LastKeyboardState.IsKeyUp(Keys.R))
+            if (KeyboardHandler.Pressed.Contains(Keys.R))
                 world = new World();
 
-            world.Update(gameTime, keyState);
-
-            LastKeyboardState = keyState;
+            world.Update(gameTime);
 
             base.Update(gameTime);
         }
