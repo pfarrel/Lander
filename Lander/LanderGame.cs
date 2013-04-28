@@ -92,7 +92,7 @@ namespace Lander
 
             world.Draw(gameTime, spriteBatch);
 
-            //spriteBatch.DrawString(Font, "Test", new Vector2(100, 100), Color.White);
+            spriteBatch.DrawString(Font, world.State.ToString(), new Vector2(100, 10), Color.White);
 
             spriteBatch.End();
             base.Draw(gameTime);
